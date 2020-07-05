@@ -11,7 +11,8 @@ module Pervasives
     , Prelude.until
     , Prelude.asTypeOf
     , Prelude.seq
-    
+    , Prelude.map
+
     -- * Basic algebraic types
     
     -- ** Bool
@@ -97,9 +98,10 @@ module Pervasives
     , Data.Ord.Ord(compare, (<), (>), (<=), (>=), max, min)
     , Data.Ord.Ordering(LT,GT,EQ)
     , Data.Ord.comparing
-    
-    -- * Algebraic type classes
-    , Prelude.map
+
+    -- * IOException
+    , Control.Exception.Base.IOException
+    , Prelude.userError
     
     -- * IO
     , System.IO.IO
@@ -112,6 +114,7 @@ module Pervasives
     , System.IO.getContents
     , System.IO.readFile
     , System.IO.writeFile
+    , System.IO.appendFile
     , System.IO.appendFile
     -- Specialized functions
     , foldr
@@ -226,9 +229,11 @@ import qualified Data.Maybe
 import qualified Data.Monoid
 import qualified Data.Ord
 import qualified Data.Tuple
-import Prelude(Bool, Int, Double, Maybe, IO, String, Eq)
+import Prelude(Bool, Int, Double, Maybe, Either, IO, String, Eq)
 import qualified Prelude
 import qualified System.IO
+import Control.Exception.Base(IOException)
+import qualified Control.Exception.Base
 
 elem :: Eq a => a -> [a] -> Bool
 elem = Data.Foldable.elem
@@ -491,3 +496,27 @@ isIEEE :: Double -> Bool
 isIEEE = Prelude.isIEEE
 atan2 :: Double -> Double -> Double
 atan2 = Prelude.atan2
+
+--
+fail :: String -> IO a
+fail = Prelude.fail
+throw :: IOException -> IO a
+throw = Control.Exception.Base.throwIO
+catch :: IO a -> (IOException -> IO a) -> IO a
+catch = Control.Exception.Base.catch
+handle :: (IOException -> IO a) -> IO a -> IO a
+handle = Control.Exception.Base.handle
+try :: IO a -> IO (Either IOException a)
+try = Control.Exception.Base.try
+onException :: IO a -> IO b -> IO a
+onException = Control.Exception.Base.onException
+evaluate :: a -> IO a
+evaluate = Control.Exception.Base.evaluate
+bracket :: IO a -> (a -> IO b) -> (a -> IO c) -> IO c
+bracket = Control.Exception.Base.bracket
+bracket_ :: IO a -> IO b -> IO c -> IO c
+bracket_ = Control.Exception.Base.bracket_
+bracketOnError :: IO a -> (a -> IO b)-> (a -> IO c) -> IO c
+bracketOnError = Control.Exception.Base.bracketOnError
+finally :: IO a -> IO b -> IO a
+finally = Control.Exception.Base.finally
