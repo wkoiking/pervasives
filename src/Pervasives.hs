@@ -115,7 +115,6 @@ module Pervasives
     , System.IO.readFile
     , System.IO.writeFile
     , System.IO.appendFile
-    , System.IO.appendFile
     -- Specialized functions
     , foldr
     , foldr'
