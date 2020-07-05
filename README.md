@@ -1,1 +1,1 @@
-﻿Prelude for OCaml user avoiding type class.
+﻿Alt Prelude for introduction of Haskell to OCaml programmers avoiding type class.
