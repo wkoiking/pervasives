@@ -19,7 +19,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     Pervasives
   build-depends:       base
-  ghc-options:         -fwarn-incomplete-patterns -fwarn-missing-signatures -Werror
+  ghc-options:         -fwarn-incomplete-patterns -fwarn-missing-signatures -Werror -Wall
   default-extensions:  StrictData
   other-extensions:    NoImplicitPrelude
   default-language:    Haskell2010
@@ -28,7 +28,7 @@ executable hascats-exe
   hs-source-dirs:      app
   main-is:             Main.hs
   build-depends:       base, pervasives
-  ghc-options:         -threaded -fwarn-incomplete-patterns -fwarn-missing-signatures -Werror
+  ghc-options:         -threaded -fwarn-incomplete-patterns -fwarn-missing-signatures -Werror -Wall
   default-extensions:  StrictData
   other-extensions:    NoImplicitPrelude
   default-language:    Haskell2010

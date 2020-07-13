@@ -27,6 +27,7 @@ module Pervasives
     , Data.Maybe.maybe
     
     -- ** List
+    , (Data.List.++)
     , Data.List.break
     , Data.List.drop
     , Data.List.dropWhile
@@ -87,7 +88,6 @@ module Pervasives
 
     -- * Numeric types
     , Prelude.Int
-    , Prelude.Double
     
     -- * Equality and ordering
     
@@ -102,7 +102,26 @@ module Pervasives
     -- * IOException
     , Control.Exception.Base.IOException
     , Prelude.userError
-    
+    , fail
+    , throw
+    , catch
+    , handle
+    , try
+    , onException
+    , evaluate
+    , bracket
+    , bracket_
+    , bracketOnError
+    , finally
+
+    -- * IORef
+
+    , Data.IORef.IORef
+    , Data.IORef.newIORef
+    , Data.IORef.readIORef
+    , Data.IORef.writeIORef
+    , modifyIORef
+
     -- * IO
     , System.IO.IO
     , System.IO.FilePath
@@ -116,6 +135,8 @@ module Pervasives
     , System.IO.writeFile
     , System.IO.appendFile
     -- Specialized functions
+    , elem
+    , notElem
     , foldr
     , foldr'
     , foldl
@@ -150,7 +171,11 @@ module Pervasives
     , int_of_float
     , string_of_bool
     , string_of_int
+    , int_of_string
+    , int_of_string_opt
     , string_of_float
+    , float_of_string
+    , float_of_string_opt
     , (+)
     , (-)
     , (*)
@@ -211,21 +236,17 @@ module Pervasives
     , isNegativeZero
     , isIEEE
     , atan2
+    , Float
     ) where
 
 import qualified Control.Monad
-import qualified Control.Monad.Fail
-import qualified Data.Bits
 import qualified Data.Bool
 import qualified Data.Either
 import qualified Data.Eq
 import qualified Data.Foldable
 import qualified Data.Function
-import qualified Data.Int
-import qualified Data.Kind
 import qualified Data.List
 import qualified Data.Maybe
-import qualified Data.Monoid
 import qualified Data.Ord
 import qualified Data.Tuple
 import Prelude(Bool, Int, Double, Maybe, Either, IO, String, Eq)
@@ -233,6 +254,8 @@ import qualified Prelude
 import qualified System.IO
 import Control.Exception.Base(IOException)
 import qualified Control.Exception.Base
+import qualified Text.Read
+import qualified Data.IORef
 
 elem :: Eq a => a -> [a] -> Bool
 elem = Data.Foldable.elem
@@ -348,13 +371,21 @@ string_of_bool = Prelude.show
 
 string_of_int :: Int -> String
 string_of_int = Prelude.show
--- int_of_string :: String -> Int
--- int_of_string_opt :: String -> Maybe Int
+
+int_of_string :: String -> Int
+int_of_string = Prelude.read
+
+int_of_string_opt :: String -> Maybe Int
+int_of_string_opt = Text.Read.readMaybe
 
 string_of_float :: Double -> String
 string_of_float = Prelude.show
--- float_of_string : String -> Double
--- float_of_string_opt : String -> Maybe  Float
+
+float_of_string :: String -> Double
+float_of_string = Prelude.read
+
+float_of_string_opt :: String -> Maybe  Float
+float_of_string_opt = Text.Read.readMaybe
 
 (+) :: Int -> Int -> Int
 (+) = (Prelude.+)
@@ -519,3 +550,8 @@ bracketOnError :: IO a -> (a -> IO b)-> (a -> IO c) -> IO c
 bracketOnError = Control.Exception.Base.bracketOnError
 finally :: IO a -> IO b -> IO a
 finally = Control.Exception.Base.finally
+
+type Float = Double
+
+modifyIORef :: Data.IORef.IORef a -> (a -> a) -> IO ()
+modifyIORef = Data.IORef.modifyIORef'
