@@ -27,3 +27,8 @@ $ cd pervasives
 $ stack setup
 $ stack ghci
 ~~~
+
+# OCamlとHaskellの文法の対比
+
+[Haskell for OCaml programmers](https://dr-knz.net/haskell-for-ocaml-programmers.html)
+
