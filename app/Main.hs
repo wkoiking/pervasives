@@ -26,7 +26,6 @@ main3 = do
  where f :: Int -> Int
        f n = n + n
 
-
 main4 :: IO ()
 main4 = do
     str <- getLine
@@ -120,8 +119,8 @@ string_of_color col = case col of
     Black -> "black"
     White -> "white"
 
-main5 :: IO ()
-main5 = do
+main6 :: IO ()
+main6 = do
     str <- getLine
     let mNum :: Maybe Int
         mNum = int_of_string_opt str
